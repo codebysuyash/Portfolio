@@ -881,7 +881,7 @@ export default function Portfolio() {
                   {/* Social Icons */}
                   <div className="flex items-center gap-3 sm:gap-4">
                     <motion.a
-                      href="https://github.com/SUYASHSINGH7985"
+                      href="https://github.com/s4yashh"
                       target="_blank"
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.2, y: -2 }}
