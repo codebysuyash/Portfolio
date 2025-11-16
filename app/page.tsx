@@ -839,67 +839,22 @@ export default function Portfolio() {
                   transition={{ duration: 0.8, delay: 1.6 }}
                 >
                 </motion.p>
-
-                {/* Let's Connect Section */}
-                <motion.div
-                  className="mt-12 sm:mt-16 md:mt-20 flex flex-col gap-4 sm:gap-6"
-                  initial={{ opacity: 0, x: -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, delay: 2 }}
-                >
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 sm:gap-8">
-                    <div></div>
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
-                      <h3 className="text-xl xs:text-2xl sm:text-2xl md:text-3xl font-light text-foreground/80 whitespace-nowrap">
-                        Let's{" "}
-                        <span style={{ color: "#0232B8", fontFamily: "Dancing Script, cursive", fontWeight: 600, textDecoration: "underline", textDecorationColor: "#880808", textDecorationThickness: "2px", textUnderlineOffset: "4px" }}>
-                          Connect
-                        </span>
-                      </h3>
-                      
-                      {/* Social Icons */}
-                      <div className="flex items-center gap-3 sm:gap-4">
-                        <motion.a
-                          href="https://github.com/SUYASHSINGH7985"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          whileHover={{ scale: 1.2, y: -2 }}
-                          className="text-foreground/60 hover:text-foreground transition-colors duration-300"
-                        >
-                          <Github size={20} className="sm:w-6 sm:h-6" />
-                        </motion.a>
-                        
-                        <motion.a
-                          href="https://linkedin.com/in/s4yashh"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          whileHover={{ scale: 1.2, y: -2 }}
-                          className="text-foreground/60 hover:text-foreground transition-colors duration-300"
-                        >
-                          <Linkedin size={20} className="sm:w-6 sm:h-6" />
-                        </motion.a>
-                        
-                        <motion.a
-                          href="mailto:singhsuyash012@gmail.com"
-                          whileHover={{ scale: 1.2, y: -2 }}
-                          className="text-foreground/60 hover:text-foreground transition-colors duration-300"
-                        >
-                          <Mail size={20} className="sm:w-6 sm:h-6" />
-                        </motion.a>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
               </div>
 
-              {/* Right Side - Circular Photo - Positioned Absolutely */}
+              {/* Right Side - Circular Photo with Let's Connect Below - Shifted Right */}
               <motion.div
-                className="hidden lg:flex absolute right-0 top-0 lg:relative lg:top-auto lg:right-auto w-1/2 justify-end"
+                className="hidden lg:flex flex-col items-center gap-8 lg:absolute lg:right-[-50px] lg:top-0 w-auto justify-end"
                 initial={{ opacity: 0, scale: 0.8, x: 50 }}
                 animate={{ opacity: 1, scale: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 1.8 }}
               >
-                <div className="relative w-72 h-72 rounded-full overflow-hidden border-4 border-gradient-to-r from-primary to-secondary shadow-2xl hover:shadow-primary/30 transition-shadow duration-300">
+                {/* Circular Photo */}
+                <motion.div 
+                  className="relative w-72 h-72 rounded-full overflow-hidden border-4 border-gradient-to-r from-primary to-secondary shadow-2xl hover:shadow-primary/30 transition-shadow duration-300"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 1.2, delay: 2.0, ease: "easeOut" }}
+                >
                   <Image
                     src="/suyash1.png"
                     alt="Suyash Singh"
@@ -907,7 +862,53 @@ export default function Portfolio() {
                     className="object-cover"
                     priority
                   />
-                </div>
+                </motion.div>
+
+                {/* Let's Connect Section - Below Photo */}
+                <motion.div
+                  className="flex flex-col gap-4 sm:gap-6 items-center"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 2.2 }}
+                >
+                  <h3 className="text-xl xs:text-2xl sm:text-2xl md:text-3xl font-light text-foreground/80 whitespace-nowrap">
+                    Let's{" "}
+                    <span style={{ color: "#0232B8", fontFamily: "Dancing Script, cursive", fontWeight: 600, textDecoration: "underline", textDecorationColor: "#880808", textDecorationThickness: "2px", textUnderlineOffset: "4px" }}>
+                      Connect
+                    </span>
+                  </h3>
+                  
+                  {/* Social Icons */}
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <motion.a
+                      href="https://github.com/SUYASHSINGH7985"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.2, y: -2 }}
+                      className="text-foreground/60 hover:text-foreground transition-colors duration-300"
+                    >
+                      <Github size={20} className="sm:w-6 sm:h-6" />
+                    </motion.a>
+                    
+                    <motion.a
+                      href="https://linkedin.com/in/s4yashh"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.2, y: -2 }}
+                      className="text-foreground/60 hover:text-foreground transition-colors duration-300"
+                    >
+                      <Linkedin size={20} className="sm:w-6 sm:h-6" />
+                    </motion.a>
+                    
+                    <motion.a
+                      href="mailto:singhsuyash012@gmail.com"
+                      whileHover={{ scale: 1.2, y: -2 }}
+                      className="text-foreground/60 hover:text-foreground transition-colors duration-300"
+                    >
+                      <Mail size={20} className="sm:w-6 sm:h-6" />
+                    </motion.a>
+                  </div>
+                </motion.div>
               </motion.div>
             </div>
           </motion.div>
