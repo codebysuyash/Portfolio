@@ -470,32 +470,6 @@ export default function Portfolio() {
     setMounted(true)
   }, [])
 
-  // Global click handler to play/pause music
-  useEffect(() => {
-    const handleGlobalClick = () => {
-      if (audioRef.current) {
-        if (isAudioPlaying) {
-          audioRef.current.pause()
-          setIsAudioPlaying(false)
-        } else {
-          audioRef.current.play().catch(e => console.log('Autoplay prevented:', e))
-          setIsAudioPlaying(true)
-        }
-      }
-    }
-
-    // Don't trigger on button clicks or interactive elements
-    const handleClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      if (!target.closest('button, a, [role="button"]')) {
-        handleGlobalClick()
-      }
-    }
-
-    document.addEventListener('click', handleClick)
-    return () => document.removeEventListener('click', handleClick)
-  }, [isAudioPlaying])
-
   const { scrollY } = useScroll()
   const backgroundY = useTransform(scrollY, [0, 2000], [0, -500])
 

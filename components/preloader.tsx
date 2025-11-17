@@ -2,135 +2,136 @@
 
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import gsap from "gsap"
 
 export default function Preloader() {
-  const [isLoading, setIsLoading] = useState(false)
-  const [count, setCount] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
+  const [displayNumber, setDisplayNumber] = useState(0)
+  const [enterClicked, setEnterClicked] = useState(false)
 
   useEffect(() => {
-    // Preloader disabled - page loads immediately
-    setIsLoading(false)
+    // Smooth counter from 0 to 100
+    let currentNumber = 0
+    
+    const interval = setInterval(() => {
+      currentNumber += 1
+      if (currentNumber >= 100) {
+        currentNumber = 100
+        setDisplayNumber(100)
+        clearInterval(interval)
+      } else {
+        setDisplayNumber(currentNumber)
+      }
+    }, 40)
+
+    return () => clearInterval(interval)
   }, [])
+
+  const handleScreenTap = () => {
+    if (displayNumber === 100) {
+      setEnterClicked(true)
+      setTimeout(() => {
+        setIsLoading(false)
+      }, 800)
+    }
+  }
 
   return (
     <>
       <AnimatePresence>
         {isLoading && (
           <motion.div
-            className="preloader-overlay fixed inset-0 z-50 bg-gradient-to-br from-background via-background to-background flex items-center justify-center overflow-hidden"
+            onClick={handleScreenTap}
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 50,
+              backgroundColor: "#000000",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              overflow: "hidden",
+              gap: "2rem",
+              cursor: "default",
+            }}
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
           >
-            {/* Animated background grid */}
-            <div className="absolute inset-0 opacity-20">
+            {/* Expanding White Line Overlay */}
+            {enterClicked && (
               <motion.div
-                className="absolute inset-0"
-                animate={{
-                  backgroundPosition: ["0px 0px", "100px 100px"],
-                }}
-                transition={{
-                  duration: 20,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
                 style={{
-                  backgroundImage: "linear-gradient(45deg, transparent 48%, rgba(168, 85, 247, 0.1) 49%, rgba(168, 85, 247, 0.1) 51%, transparent 52%)",
-                  backgroundSize: "100px 100px",
+                  position: "fixed",
+                  inset: 0,
+                  backgroundColor: "#FFFFFF",
+                  zIndex: 60,
                 }}
+                initial={{ scaleY: 0, transformOrigin: "center" }}
+                animate={{ scaleY: 1 }}
+                transition={{ duration: 0.8, ease: "easeInOut" }}
               />
-            </div>
+            )}
 
-            {/* Center container */}
-            <div className="relative z-10 flex flex-col items-center gap-8">
-              {/* Main animated orbs */}
-              <div className="relative w-32 h-32 sm:w-40 sm:h-40">
-                {/* Outer rotating ring */}
-                <motion.div
-                  className="absolute inset-0 border-2 border-transparent border-t-purple-500 border-r-purple-500 rounded-full"
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                />
-
-                {/* Middle rotating ring */}
-                <motion.div
-                  className="absolute inset-4 sm:inset-6 border-2 border-transparent border-b-blue-500 border-l-blue-500 rounded-full"
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                />
-
-                {/* Inner pulsing orb */}
-                <motion.div
-                  className="absolute inset-8 sm:inset-12 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full"
-                  animate={{
-                    scale: [1, 1.2, 1],
-                    boxShadow: [
-                      "0 0 20px rgba(168, 85, 247, 0.5)",
-                      "0 0 40px rgba(168, 85, 247, 0.8)",
-                      "0 0 20px rgba(168, 85, 247, 0.5)",
-                    ],
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                />
-
-                {/* Floating particles around orb */}
-                {[...Array(6)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className="absolute w-2 h-2 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full"
-                    style={{
-                      top: "50%",
-                      left: "50%",
-                    }}
-                    animate={{
-                      x: Math.cos((i / 6) * Math.PI * 2) * 60,
-                      y: Math.sin((i / 6) * Math.PI * 2) * 60,
-                      opacity: [0.3, 1, 0.3],
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      delay: (i / 6) * 0.3,
-                    }}
-                  />
-                ))}
-              </div>
-
-              {/* Counter display */}
-              <motion.div
-                className="text-center"
+            {/* Progress Bar Container */}
+            <motion.div
+              style={{
+                width: "90%",
+                maxWidth: "400px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "1.2rem",
+              }}
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              {/* Audio Text */}
+              <motion.p
+                style={{
+                  color: "#F5F5F5",
+                  fontSize: "1rem",
+                  fontWeight: "500",
+                  fontFamily: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+                  letterSpacing: "0.08em",
+                  margin: 0,
+                  marginBottom: "-1rem",
+                  textAlign: "center",
+                  maxWidth: "90%",
+                }}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
               >
-                <div className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2">
-                  {count}%
-                </div>
-                <p className="text-sm sm:text-base font-light text-foreground/70 tracking-widest">
-                  LOADING
-                </p>
+                THIS SITE SOUNDS BETTER WITH AUDIO
+              </motion.p>
+
+              {/* Filling Progress Line - Static container, filling inside */}
+              <motion.div
+                style={{
+                  width: "100%",
+                  height: "2px",
+                  backgroundColor: "#333333",
+                  borderRadius: "1px",
+                  overflow: "hidden",
+                  position: "relative",
+                }}
+                initial={{ opacity: 0, scaleX: 0, transformOrigin: "left" }}
+                animate={{ opacity: 1, scaleX: 1 }}
+                transition={{ delay: 1.0, duration: 0.4, ease: "easeOut" }}
+              >
+                <motion.div
+                  style={{
+                    height: "100%",
+                    backgroundColor: "#FFFFFF",
+                    width: `${displayNumber}%`,
+                    borderRadius: "1px",
+                  }}
+                  transition={{ duration: 0.05 }}
+                />
               </motion.div>
-            </div>
-
-            {/* Glowing edge effect */}
-            <motion.div
-              className="absolute top-0 left-1/2 w-96 h-96 bg-purple-500/30 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"
-              animate={{
-                scale: [0.8, 1.2, 0.8],
-                opacity: [0.3, 0.6, 0.3],
-              }}
-              transition={{ duration: 4, repeat: Infinity }}
-            />
-
-            <motion.div
-              className="absolute bottom-0 right-0 w-96 h-96 bg-blue-500/30 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"
-              animate={{
-                scale: [1.2, 0.8, 1.2],
-                opacity: [0.4, 0.2, 0.4],
-              }}
-              transition={{ duration: 5, repeat: Infinity }}
-            />
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
