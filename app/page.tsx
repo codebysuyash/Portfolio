@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { usePreloaderContext } from "@/components/preloader-wrapper"
 
 import {
   Github,
@@ -459,6 +460,7 @@ function ContactSection({ contactRef }: { contactRef: React.RefObject<HTMLElemen
 }
 
 export default function Portfolio() {
+  const { preloaderComplete } = usePreloaderContext()
   const [mounted, setMounted] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
   const [selectedFilter, setSelectedFilter] = useState("all")
@@ -753,26 +755,29 @@ export default function Portfolio() {
               {/* Left Side - Text Content */}
               <div className="w-full lg:w-2/5 flex flex-col">
                 {/* "Hi" - appears first */}
-                <motion.div
-                  initial={{ opacity: 0, x: -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, delay: 0 }}
-                  className="mb-2 sm:mb-4 md:mb-6"
-                >
-                  <h1 className="text-6xl xs:text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] xl:text-[12rem] font-light tracking-tighter leading-tight">
-                    <span className="bg-gradient-to-r from-primary via-purple-500 to-secondary bg-clip-text text-transparent">
-                      Hi,
-                    </span>
-                  </h1>
-                </motion.div>
+                {preloaderComplete && (
+                  <motion.div
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, delay: 0 }}
+                    className="mb-2 sm:mb-4 md:mb-6"
+                  >
+                    <h1 className="text-6xl xs:text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] xl:text-[12rem] font-light tracking-tighter leading-tight">
+                      <span className="bg-gradient-to-r from-primary via-purple-500 to-secondary bg-clip-text text-transparent">
+                        Hi,
+                      </span>
+                    </h1>
+                  </motion.div>
+                )}
 
                 {/* "I'm Suyash" - appears smoothly after Hi */}
-                <motion.div
-                  initial={{ opacity: 0, x: -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, delay: 0.6 }}
-                  className="mb-6 sm:mb-8 md:mb-12 relative inline-block"
-                >
+                {preloaderComplete && (
+                  <motion.div
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, delay: 0.6 }}
+                    className="mb-6 sm:mb-8 md:mb-12 relative inline-block"
+                  >
                   <h2 className="text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] font-semibold tracking-tighter leading-tight relative whitespace-nowrap">
                     I'm{" "}
                     <span className="relative inline">
@@ -787,47 +792,53 @@ export default function Portfolio() {
                         style={{ backgroundColor: "#D9E2ED", originX: 0 }}
                         initial={{ scaleX: 0 }}
                         animate={{ scaleX: 1 }}
-                        transition={{ duration: 1.5, delay: 1.4, ease: "easeOut" }}
+                        transition={{ duration: 1.5, delay: 0.6, ease: "easeOut" }}
                       />
                     </span>
                   </h2>
                 </motion.div>
+                )}
 
                 {/* "Pushing ideas into reality" - appears last with stagger */}
-                <motion.div
-                  initial={{ opacity: 0, x: -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, delay: 1.2 }}
-                  className="mb-8 sm:mb-10 md:mb-12"
-                >
-                  <p className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-foreground/80 tracking-tight leading-snug whitespace-nowrap">
-                    Pushing <span style={{ color: "#880808", fontFamily: "Dancing Script, cursive", fontWeight: 600 }}>ideas</span> into <span style={{ color: "#880808", fontFamily: "Dancing Script, cursive", fontWeight: 600 }}>reality</span>
-                  </p>
-                </motion.div>
+                {preloaderComplete && (
+                  <motion.div
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, delay: 1.2 }}
+                    className="mb-8 sm:mb-10 md:mb-12"
+                  >
+                    <p className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-foreground/80 tracking-tight leading-snug whitespace-nowrap">
+                      Pushing <span style={{ color: "#880808", fontFamily: "Dancing Script, cursive", fontWeight: 600 }}>ideas</span> into <span style={{ color: "#880808", fontFamily: "Dancing Script, cursive", fontWeight: 600 }}>reality</span>
+                    </p>
+                  </motion.div>
+                )}
 
                 {/* Subtitle with smooth entry */}
-                <motion.p
-                  className="text-lg sm:text-xl text-foreground/60 mb-12 max-w-2xl leading-relaxed"
-                  initial={{ opacity: 0, x: -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, delay: 1.6 }}
-                >
-                </motion.p>
+                {preloaderComplete && (
+                  <motion.p
+                    className="text-lg sm:text-xl text-foreground/60 mb-12 max-w-2xl leading-relaxed"
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, delay: 1.6 }}
+                  >
+                  </motion.p>
+                )}
               </div>
 
               {/* Right Side - Circular Photo with Let's Connect Below */}
-              <motion.div
-                className="w-full lg:w-auto flex flex-col items-center gap-6 sm:gap-8 lg:absolute lg:right-[-350px] lg:top-0"
-                initial={{ opacity: 0, scale: 0.8, y: 30 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 1.8 }}
-              >
-                {/* Circular Photo */}
-                <motion.div 
-                  className="relative w-64 sm:w-72 md:w-80 lg:w-96 h-64 sm:h-72 md:h-80 lg:h-96 rounded-full overflow-hidden border-4 border-gradient-to-r from-primary to-secondary shadow-2xl hover:shadow-primary/30 transition-shadow duration-300"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 1.2, delay: 2.0, ease: "easeOut" }}
+              {preloaderComplete && (
+                <motion.div
+                  className="w-full lg:w-auto flex flex-col items-center gap-6 sm:gap-8 lg:absolute lg:right-[-350px] lg:top-0"
+                  initial={{ opacity: 0, scale: 0.8, y: 30 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 1.8 }}
+                >
+                  {/* Circular Photo */}
+                  <motion.div 
+                    className="relative w-64 sm:w-72 md:w-80 lg:w-96 h-64 sm:h-72 md:h-80 lg:h-96 rounded-full overflow-hidden border-4 border-gradient-to-r from-primary to-secondary shadow-2xl hover:shadow-primary/30 transition-shadow duration-300"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1.2, delay: 2.0, ease: "easeOut" }}
                 >
                   <Image
                     src="/suyash1.png"
@@ -842,8 +853,8 @@ export default function Portfolio() {
                 <motion.div
                   className="flex flex-col gap-3 sm:gap-4 md:gap-6 items-center"
                   initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 2.2 }}
+                  animate={preloaderComplete ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                  transition={{ duration: 0.8, delay: preloaderComplete ? 2.2 : 10 }}
                 >
                   <h3 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-light text-foreground/80 whitespace-nowrap">
                     Let's{" "}
@@ -884,6 +895,7 @@ export default function Portfolio() {
                   </div>
                 </motion.div>
               </motion.div>
+              )}
             </div>
           </motion.div>
         </div>

@@ -3,13 +3,17 @@
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
-export default function Preloader() {
+interface PreloaderProps {
+  onComplete?: () => void
+}
+
+export default function Preloader({ onComplete }: PreloaderProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [displayNumber, setDisplayNumber] = useState(0)
   const [enterClicked, setEnterClicked] = useState(false)
 
   useEffect(() => {
-    // Smooth counter from 0 to 100
+    // Smooth counter from 0 to 100 (faster - 20ms per increment)
     let currentNumber = 0
     
     const interval = setInterval(() => {
@@ -21,7 +25,7 @@ export default function Preloader() {
       } else {
         setDisplayNumber(currentNumber)
       }
-    }, 40)
+    }, 20)
 
     return () => clearInterval(interval)
   }, [])
@@ -31,7 +35,9 @@ export default function Preloader() {
       setEnterClicked(true)
       setTimeout(() => {
         setIsLoading(false)
-      }, 800)
+        // Notify parent component that preloader has completed
+        onComplete?.()
+      }, 400)
     }
   }
 
@@ -56,7 +62,7 @@ export default function Preloader() {
             }}
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
           >
             {/* Expanding White Line Overlay */}
             {enterClicked && (
@@ -69,7 +75,7 @@ export default function Preloader() {
                 }}
                 initial={{ scaleY: 0, transformOrigin: "center" }}
                 animate={{ scaleY: 1 }}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
               />
             )}
 
