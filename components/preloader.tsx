@@ -3,7 +3,11 @@
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
-export default function Preloader() {
+interface PreloaderProps {
+  onComplete?: () => void
+}
+
+export default function Preloader({ onComplete }: PreloaderProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [displayNumber, setDisplayNumber] = useState(0)
   const [enterClicked, setEnterClicked] = useState(false)
@@ -31,6 +35,8 @@ export default function Preloader() {
       setEnterClicked(true)
       setTimeout(() => {
         setIsLoading(false)
+        // Notify parent component that preloader has completed
+        onComplete?.()
       }, 800)
     }
   }

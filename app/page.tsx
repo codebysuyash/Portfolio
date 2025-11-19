@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { usePreloaderContext } from "@/components/preloader-wrapper"
 
 import {
   Github,
@@ -459,6 +460,7 @@ function ContactSection({ contactRef }: { contactRef: React.RefObject<HTMLElemen
 }
 
 export default function Portfolio() {
+  const { preloaderComplete } = usePreloaderContext()
   const [mounted, setMounted] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
   const [selectedFilter, setSelectedFilter] = useState("all")
@@ -745,7 +747,7 @@ export default function Portfolio() {
           <motion.div
             className="w-full"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={preloaderComplete ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 1 }}
           >
             {/* Main Content - Responsive Flex layout */}
@@ -755,8 +757,8 @@ export default function Portfolio() {
                 {/* "Hi" - appears first */}
                 <motion.div
                   initial={{ opacity: 0, x: -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, delay: 0 }}
+                  animate={preloaderComplete ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+                  transition={{ duration: 0.8, delay: preloaderComplete ? 0 : 0 }}
                   className="mb-2 sm:mb-4 md:mb-6"
                 >
                   <h1 className="text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] font-light tracking-tighter leading-tight">
@@ -769,8 +771,8 @@ export default function Portfolio() {
                 {/* "I'm Suyash" - appears smoothly after Hi */}
                 <motion.div
                   initial={{ opacity: 0, x: -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, delay: 0.6 }}
+                  animate={preloaderComplete ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+                  transition={{ duration: 0.8, delay: preloaderComplete ? 0.6 : 0 }}
                   className="mb-6 sm:mb-8 md:mb-12 relative inline-block"
                 >
                   <h2 className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-semibold tracking-tighter leading-tight relative whitespace-nowrap">
@@ -786,8 +788,8 @@ export default function Portfolio() {
                         className="absolute inset-0 pointer-events-none"
                         style={{ backgroundColor: "#D9E2ED", originX: 0 }}
                         initial={{ scaleX: 0 }}
-                        animate={{ scaleX: 1 }}
-                        transition={{ duration: 1.5, delay: 1.4, ease: "easeOut" }}
+                        animate={preloaderComplete ? { scaleX: 1 } : { scaleX: 0 }}
+                        transition={{ duration: 1.5, delay: preloaderComplete ? 1.4 : 0, ease: "easeOut" }}
                       />
                     </span>
                   </h2>
@@ -796,8 +798,8 @@ export default function Portfolio() {
                 {/* "Pushing ideas into reality" - appears last with stagger */}
                 <motion.div
                   initial={{ opacity: 0, x: -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, delay: 1.2 }}
+                  animate={preloaderComplete ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+                  transition={{ duration: 0.8, delay: preloaderComplete ? 1.2 : 0 }}
                   className="mb-8 sm:mb-10 md:mb-12"
                 >
                   <p className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-foreground/80 tracking-tight leading-snug">
@@ -809,8 +811,8 @@ export default function Portfolio() {
                 <motion.p
                   className="text-lg sm:text-xl text-foreground/60 mb-12 max-w-2xl leading-relaxed"
                   initial={{ opacity: 0, x: -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, delay: 1.6 }}
+                  animate={preloaderComplete ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+                  transition={{ duration: 0.8, delay: preloaderComplete ? 1.6 : 0 }}
                 >
                 </motion.p>
               </div>
@@ -819,15 +821,15 @@ export default function Portfolio() {
               <motion.div
                 className="w-full lg:w-auto flex flex-col items-center gap-6 sm:gap-8 lg:absolute lg:right-[-50px] lg:top-0"
                 initial={{ opacity: 0, scale: 0.8, y: 30 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 1.8 }}
+                animate={preloaderComplete ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.8, y: 30 }}
+                transition={{ duration: 0.8, delay: preloaderComplete ? 1.8 : 0 }}
               >
                 {/* Circular Photo */}
                 <motion.div 
                   className="relative w-56 sm:w-64 md:w-72 h-56 sm:h-64 md:h-72 rounded-full overflow-hidden border-4 border-gradient-to-r from-primary to-secondary shadow-2xl hover:shadow-primary/30 transition-shadow duration-300"
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 1.2, delay: 2.0, ease: "easeOut" }}
+                  animate={preloaderComplete ? { opacity: 1 } : { opacity: 0 }}
+                  transition={{ duration: 1.2, delay: preloaderComplete ? 2.0 : 0, ease: "easeOut" }}
                 >
                   <Image
                     src="/suyash1.png"
@@ -842,8 +844,8 @@ export default function Portfolio() {
                 <motion.div
                   className="flex flex-col gap-3 sm:gap-4 md:gap-6 items-center"
                   initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 2.2 }}
+                  animate={preloaderComplete ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                  transition={{ duration: 0.8, delay: preloaderComplete ? 2.2 : 0 }}
                 >
                   <h3 className="text-lg xs:text-xl sm:text-2xl md:text-3xl font-light text-foreground/80 whitespace-nowrap">
                     Let's{" "}
