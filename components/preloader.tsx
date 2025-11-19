@@ -22,6 +22,15 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         currentNumber = 100
         setDisplayNumber(100)
         clearInterval(interval)
+        // Auto-transition when counter reaches 100
+        setTimeout(() => {
+          setEnterClicked(true)
+          setTimeout(() => {
+            setIsLoading(false)
+            // Notify parent component that preloader has completed
+            onComplete?.()
+          }, 800)
+        }, 300) // Small delay before auto-transitioning
       } else {
         setDisplayNumber(currentNumber)
       }
@@ -30,23 +39,11 @@ export default function Preloader({ onComplete }: PreloaderProps) {
     return () => clearInterval(interval)
   }, [])
 
-  const handleScreenTap = () => {
-    if (displayNumber === 100) {
-      setEnterClicked(true)
-      setTimeout(() => {
-        setIsLoading(false)
-        // Notify parent component that preloader has completed
-        onComplete?.()
-      }, 400)
-    }
-  }
-
   return (
     <>
       <AnimatePresence>
         {isLoading && (
           <motion.div
-            onClick={handleScreenTap}
             style={{
               position: "fixed",
               inset: 0,
@@ -75,7 +72,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
                 }}
                 initial={{ scaleY: 0, transformOrigin: "center" }}
                 animate={{ scaleY: 1 }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
+                transition={{ duration: 0.8, ease: "easeInOut" }}
               />
             )}
 

@@ -580,6 +580,7 @@ export default function Portfolio() {
 
   useEffect(() => {
     let scrollTimeout: NodeJS.Timeout
+    let musicStarted = false
     
     const handleScroll = () => {
       clearTimeout(scrollTimeout)
@@ -602,10 +603,41 @@ export default function Portfolio() {
       }, 50)
     }
 
+    const startMusic = () => {
+      // Start music on user tap/click
+      if (!musicStarted && audioRef.current) {
+        const playPromise = audioRef.current.play()
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              // Audio playback started successfully
+              setIsAudioPlaying(true)
+              musicStarted = true
+            })
+            .catch((error) => {
+              // Autoplay was prevented or error occurred
+              console.log("Playback error:", error)
+            })
+        } else {
+          // Older browsers
+          setIsAudioPlaying(true)
+          musicStarted = true
+        }
+        // Remove listener after first successful attempt
+        document.removeEventListener("click", startMusic)
+        document.removeEventListener("touchstart", startMusic)
+      }
+    }
+
     window.addEventListener("scroll", handleScroll)
+    document.addEventListener("click", startMusic)
+    document.addEventListener("touchstart", startMusic)
+    
     return () => {
       clearTimeout(scrollTimeout)
       window.removeEventListener("scroll", handleScroll)
+      document.removeEventListener("click", startMusic)
+      document.removeEventListener("touchstart", startMusic)
     }
   }, [])
 
@@ -936,6 +968,8 @@ export default function Portfolio() {
       <audio
         ref={audioRef}
         src="/Losingmymind.mp3"
+        loop
+        preload="auto"
         onPlay={() => setIsAudioPlaying(true)}
         onPause={() => setIsAudioPlaying(false)}
         onEnded={() => setIsAudioPlaying(false)}
